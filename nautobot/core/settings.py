@@ -937,7 +937,7 @@ CACHES = {
             "NAUTOBOT_CACHES_BACKEND",
             "django_prometheus.cache.backends.redis.RedisCache" if METRICS_ENABLED else "django_redis.cache.RedisCache",
         ),
-        "LOCATION": parse_redis_connection(redis_database=1),
+        "LOCATION": parse_redis_connection(redis_database=1, env_base="NAUTOBOT_REDIS_CACHE"),
         "TIMEOUT": int(os.getenv("NAUTOBOT_CACHES_TIMEOUT", "300")),
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
@@ -973,7 +973,7 @@ CELERY_WORKER_READINESS_FILE = os.getenv(
 CELERY_HEALTH_PROBES_AS_FILES = is_truthy(os.getenv("NAUTOBOT_CELERY_HEALTH_PROBES_AS_FILES", "False"))
 
 # Celery broker URL used to tell workers where queues are located
-CELERY_BROKER_URL = os.getenv("NAUTOBOT_CELERY_BROKER_URL", parse_redis_connection(redis_database=0))
+CELERY_BROKER_URL = os.getenv("NAUTOBOT_CELERY_BROKER_URL", parse_redis_connection(redis_database=0, env_base="NAUTOBOT_REDIS_QUEUE"))
 
 # Celery results backend URL to tell workers where to publish task results - DO NOT CHANGE THIS
 CELERY_RESULT_BACKEND = "nautobot.core.celery.backends.NautobotDatabaseBackend"

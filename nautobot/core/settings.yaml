@@ -304,12 +304,20 @@ properties:
           LOCATION:
             default: "redis://localhost:6379/1"
             environment_variables:
+            - "NAUTOBOT_REDIS_CACHE_SCHEME"
+            - "NAUTOBOT_REDIS_CACHE_SSL"
+            - "NAUTOBOT_REDIS_CACHE_USERNAME"
+            - "NAUTOBOT_REDIS_CACHE_PASSWORD"
+            - "NAUTOBOT_REDIS_CACHE_HOST"
+            - "NAUTOBOT_REDIS_CACHE_PORT"
+            - "NAUTOBOT_REDIS_CACHE_DATABASE"
             - "NAUTOBOT_REDIS_SCHEME"
             - "NAUTOBOT_REDIS_SSL"
             - "NAUTOBOT_REDIS_USERNAME"
             - "NAUTOBOT_REDIS_PASSWORD"
             - "NAUTOBOT_REDIS_HOST"
             - "NAUTOBOT_REDIS_PORT"
+            - "NAUTOBOT_REDIS_DATABASE"
             format: "uri"
             type: "string"
           OPTIONS:
@@ -360,12 +368,20 @@ properties:
       variables also influence the [`CACHES`](#caches) configuration as well.
     environment_variables:
     - "NAUTOBOT_CELERY_BROKER_URL"
+    - "NAUTOBOT_REDIS_QUEUE_SCHEME"
+    - "NAUTOBOT_REDIS_QUEUE_SSL"
+    - "NAUTOBOT_REDIS_QUEUE_USERNAME"
+    - "NAUTOBOT_REDIS_QUEUE_PASSWORD"
+    - "NAUTOBOT_REDIS_QUEUE_HOST"
+    - "NAUTOBOT_REDIS_QUEUE_PORT"
+    - "NAUTOBOT_REDIS_QUEUE_DATABASE"
     - "NAUTOBOT_REDIS_SCHEME"
     - "NAUTOBOT_REDIS_SSL"
     - "NAUTOBOT_REDIS_USERNAME"
     - "NAUTOBOT_REDIS_PASSWORD"
     - "NAUTOBOT_REDIS_HOST"
     - "NAUTOBOT_REDIS_PORT"
+    - "NAUTOBOT_REDIS_DATABASE"
     format: "uri"
     type: "string"
   CELERY_BROKER_USE_SSL:

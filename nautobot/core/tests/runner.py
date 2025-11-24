@@ -28,7 +28,7 @@ def init_worker_with_unique_cache(*args, **kwargs):
 
     # Redis DB indices 0 and 1 are used by non-automated testing, so we want to start at index 2
     caches = copy.deepcopy(settings.CACHES)
-    caches["default"]["LOCATION"] = parse_redis_connection(redis_database=_worker_id + 1)
+    caches["default"]["LOCATION"] = parse_redis_connection(redis_database=_worker_id + 1, env_base="NAUTOBOT_REDIS_CACHE")
     override_settings(CACHES=caches).enable()
     print(f"Set settings.CACHES['default']['LOCATION'] to use Redis index {_worker_id + 1}")
 

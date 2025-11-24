@@ -26,6 +26,8 @@ In the event you do need to make customizations to how Celery interacts with the
 
 * [`CELERY_BROKER_URL`](../configuration/settings.md#celery_broker_url)
     * Rather than directly configuring this setting, you may prefer to control it and the `CACHES["default"]["LOCATION"]` setting through the various `NAUTOBOT_REDIS_*` environment variables in order to reduce duplication of information.
+    * `NAUTOBOT_REDIS_CACHE_*` environment variables can be used to configure `CACHES["default"]["LOCATION"]` independently of other Redis connections.
+    * `NAUTOBOT_REDIS_QUEUE_*` environment variables can be used to configure `CELERY_BROKER_URL` independently of other Redis connections.
 * [`CELERY_BROKER_USE_SSL`](../configuration/settings.md#celery_broker_use_ssl)
 * [`CELERY_REDIS_BACKEND_USE_SSL`](../configuration/settings.md#celery_redis_backend_use_ssl)
 
