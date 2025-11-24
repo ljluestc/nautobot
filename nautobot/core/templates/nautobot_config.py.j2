@@ -58,7 +58,7 @@ from nautobot.core.settings_funcs import is_truthy, parse_redis_connection
 
 # Celery broker URL used to tell workers where queues are located
 #
-# CELERY_BROKER_URL = os.getenv("NAUTOBOT_CELERY_BROKER_URL", parse_redis_connection(redis_database=0))
+# CELERY_BROKER_URL = os.getenv("NAUTOBOT_CELERY_BROKER_URL", parse_redis_connection(redis_database=0, env_base="NAUTOBOT_REDIS_QUEUE"))
 
 # Optional configuration dict for Celery to use custom SSL certificates to connect to Redis.
 #

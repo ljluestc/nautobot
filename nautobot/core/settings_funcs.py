@@ -53,25 +53,39 @@ def is_truthy(arg):
         raise ValueError(f"Invalid truthy value: `{arg}`")
 
 
-def parse_redis_connection(redis_database):
+def parse_redis_connection(redis_database, env_base="NAUTOBOT_REDIS"):
     """
     Parse environment variables to emit a Redis connection URL.
 
     Args:
         redis_database (int): Redis database number to use for the connection
+        env_base (str): Environment variable prefix to search for settings
 
     Returns:
         Redis connection URL (str)
     """
+    def get_env(name, default=None):
+        # Check for specific setting first (e.g. NAUTOBOT_REDIS_CACHE_HOST)
+        value = os.getenv(f"{env_base}_{name}")
+        if value is not None:
+            return value
+        # Fallback to generic setting (e.g. NAUTOBOT_REDIS_HOST)
+        if env_base != "NAUTOBOT_REDIS":
+            return os.getenv(f"NAUTOBOT_REDIS_{name}", default)
+        return default
+
     # The following `_redis_*` variables are used to generate settings based on
     # environment variables.
-    redis_scheme = os.getenv("NAUTOBOT_REDIS_SCHEME")
+    redis_scheme = get_env("SCHEME")
     if redis_scheme is None:
-        redis_scheme = "rediss" if is_truthy(os.getenv("NAUTOBOT_REDIS_SSL", "false")) else "redis"
-    redis_host = os.getenv("NAUTOBOT_REDIS_HOST", "localhost")
-    redis_port = int(os.getenv("NAUTOBOT_REDIS_PORT", "6379"))
-    redis_username = os.getenv("NAUTOBOT_REDIS_USERNAME", "")
-    redis_password = os.getenv("NAUTOBOT_REDIS_PASSWORD", "")
+        redis_scheme = "rediss" if is_truthy(get_env("SSL", "false")) else "redis"
+
+    redis_host = get_env("HOST", "localhost")
+    redis_port = int(get_env("PORT", "6379"))
+    redis_username = get_env("USERNAME", "")
+    redis_password = get_env("PASSWORD", "")
+
+    redis_database = int(get_env("DATABASE", redis_database))
 
     # Default Redis credentials to being empty unless a username or password is
     # provided. Then map it to "username:password@". We're not URL-encoding the
